@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Check Time Example</title>
+</head>
+<body>
+  <h1>Check Time Example</h1>
+  <p>Waiting for the next half hour...</p>
+
+  <script>
+    // 定义检查函数
+    function checkTime() {
+      const now = new Date();
+      if (now.getMinutes() === 0 || now.getMinutes() === 30) {
+        alert(`Current time is ${now.toLocaleString()}`);
+      }
+    }
+
+    // 第一次立即执行一次检查函数
+    checkTime();
+
+    // 设置定时器，每隔一分钟触发一次检查函数
+    setInterval(checkTime, 60 * 1000);
+  </script>
+</body>
+</html>
