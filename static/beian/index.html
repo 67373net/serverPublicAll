@@ -248,6 +248,25 @@
         } catch (error) { }
       });
     });
+
+
+
+
+    // 获取当前 URL 中的参数
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 从参数中获取目标网址
+    const targetUrl = urlParams.get('q').replace('/http', 'http');
+
+    // 检查是否存在目标网址
+    if (targetUrl) {
+      // JavaScript 跳转
+      window.location.href = targetUrl;
+    }
+    // else {
+    //   // 如果没有指定目标网址，则显示提示信息
+    //   document.body.innerHTML = '<p>No target URL specified.</p>';
+    // }
   </script>
 </body>
 
