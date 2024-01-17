@@ -4,7 +4,7 @@ set pre=04
 :main 
 if not "%~1"=="" ( 
   if exist "%~1" ( 
-    move "%~nx1" "%~dp0\%pre% %~nx1" 
+    copy "%~nx1" "%~dp0\%pre% %~nx1" 
   ) else ( 
      echo "%~nx1" not exist 
   ) 
