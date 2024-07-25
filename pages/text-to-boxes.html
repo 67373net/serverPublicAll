@@ -38,7 +38,7 @@
       color: black;
     }
     .dark-gray {
-      color: rgb(128, 128, 128);
+      color: darkgray;
     }
   </style>
 </head>
@@ -49,6 +49,8 @@
   <input type="number" id="heightInput" value="5" step="0.1">
   <label for="gapInput">间距（em）：</label>
   <input type="number" id="gapInput" value="0" step="0.1">
+  <label for="chunkSizeInput">每块字符数：</label>
+  <input type="number" id="chunkSizeInput" value="9" step="1" min="1">
   <textarea id="inputArea" placeholder="请输入文字..."></textarea>
   <div id="outputArea"></div>
   <script>
@@ -57,6 +59,7 @@
     const widthInput = document.getElementById('widthInput');
     const heightInput = document.getElementById('heightInput');
     const gapInput = document.getElementById('gapInput');
+    const chunkSizeInput = document.getElementById('chunkSizeInput');
 
     function updateBoxSize() {
       const width = widthInput.value;
@@ -72,11 +75,11 @@
       outputArea.style.gap = `${gap}em`;
     }
 
-    inputArea.addEventListener('input', () => {
+    function updateOutput() {
       const text = inputArea.value;
+      const chunkSize = parseInt(chunkSizeInput.value, 10);
       outputArea.innerHTML = ''; // 清空输出区域
 
-      let chunkSize = 9; // 每个 div 最多包含 9 个字符
       for (let i = 0; i < text.length; i += chunkSize) {
         let chunk = text.slice(i, i + chunkSize);
         let div = document.createElement('div');
@@ -94,11 +97,13 @@
       }
       updateBoxSize(); // 更新 .char-box 的大小
       updateGap(); // 更新 .char-box 的间距
-    });
+    }
 
+    inputArea.addEventListener('input', updateOutput);
     widthInput.addEventListener('input', updateBoxSize);
     heightInput.addEventListener('input', updateBoxSize);
     gapInput.addEventListener('input', updateGap);
+    chunkSizeInput.addEventListener('input', updateOutput);
   </script>
 </body>
 </html>
