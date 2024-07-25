@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Display Poster</title>
+  <style>
+    @font-face {
+      font-family: 'MonuTitl-Md';
+      src: url('https://raw.githubusercontent.com/67373net/serverPublicAll/main/commonSrc/MonuTitl-0.96CnMd.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'MonuTitl-Bd';
+      src: url('https://raw.githubusercontent.com/67373net/serverPublicAll/main/commonSrc/MonuTitl-0.96CnBd.ttf') format('truetype');
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'GlowSansSC-Condensed-Medium';
+      src: url('https://raw.githubusercontent.com/67373net/serverPublicAll/main/commonSrc/GlowSansSC-Condensed-Medium.otf') format('truetype');
+      font-weight: medium;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      background-color: black;
+      color: white;
+      font-family: 'MonuTitl-Md', sans-serif;
+      font-size: 3.4vw;
+    }
+
+    .bold {
+      font-family: 'MonuTitl-Bd', sans-serif;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    p a,
+    p a:visited {
+      color: #f34342 !important;
+      text-decoration: none;
+      display: inline-block;
+      margin-left: 0.8em;
+    }
+
+    hr {
+      border: #f34342 1px solid;
+      opacity: 0.58;
+    }
+
+    .biger {
+      color: white;
+      font-size: 1.2em;
+      line-height: 1.28em;
+    }
+
+    #xdyc {
+      background-color: white;
+      width: 100%;
+      padding: 3vw 0;
+    }
+
+    .leftText {
+      width: 9em;
+      display: inline-block;
+      text-align: right;
+    }
+
+    tr td:first-child {
+      text-align: right;
+      color: #d5d5d5;
+    }
+
+    tr td:nth-child(2) {
+      text-align: left;
+      color: #f34342 !important;
+      /* font-family: 'GlowSansSC-Condensed-Medium', sans-serif; */
+    }
+
+    td {
+      padding: 0vw 1vw;
+    }
+
+    td a,
+    td a:visited {
+      color: #f34342 !important;
+      text-decoration: none;
+    }
+
+    .text-container {
+      width: 100%;
+      margin: 3.5vw 0;
+    }
+
+    #time {
+      margin: 3vw 0;
+    }
+  </style>
+</head>
+
+<body>
+  <img style="width: 100%;"
+    src="https://raw.githubusercontent.com/67373net/serverPublicAll/main/commonSrc/YouTube-logo-banner.png">
+  <img id="poster" style="max-height: 56.25vw; height: 100%; width: 100%; object-fit: contain;">
+  <div style="padding: 0.01vw 5vw 2.5vw 5vw; background-color: #202020;">
+    <div class="text-container">
+      <div class="biger" id="title">陈一发儿：艾尔登法环 DLC 黄金树幽影 唱歌博主里最会打游戏的，游戏博主里最会聊天的六边形（20240626）</div>
+      <div class="biger" id="time">北京时间 2024年22月22日 20:30</div>
+      <div style="color: #d5d5d5;">一般周一、三、六，北京时间 20:40 在 YouTube 直播</div>
+    </div>
+    <hr />
+    <table class="text-container">
+      <tbody>
+        <tr>
+          <td>开播通知 QQ 群</td>
+          <td>606797995</td>
+        </tr>
+        <tr>
+          <td>开播通知 Telegram 群</td>
+          <td><a href="https://67373.net/tg">67373.net/tg</a></td>
+        </tr>
+        <tr>
+          <td>YouTube 主页</td>
+          <td><a href="https://67373.net/youtube">67373.net/youtube</a></td>
+        </tr>
+        <tr>
+          <td>Twitch 主页</td>
+          <td><a href="https://67373.net/twitch">67373.net/twitch</a></td>
+        </tr>
+        <tr>
+          <td>直播回放</td>
+          <td><a href="https://67373.net/replay">67373.net/replay</a></td>
+        </tr>
+        <tr>
+          <td>Spotify</td>
+          <td><a href="https://67373.net/spotify">67373.net/spotify</a></td>
+        </tr>
+        <tr>
+          <td>Instagram</td>
+          <td><a href="https://67373.net/ig">67373.net/ig</a></td>
+        </tr>
+        <tr>
+          <td>Twitter</td>
+          <td><a href="https://67373.net/twitter">67373.net/twitter</a></td>
+        </tr>
+        <tr>
+          <td>淘宝店 - 喜瑞斯</td>
+          <td><a href="https://67373.net/tb">67373.net/tb</a></td>
+        </tr>
+        <tr>
+          <td>闲鱼 - 小德小卖部</td>
+          <td><a href="https://67373.net/xy">67373.net/xy</a></td>
+        </tr>
+        <tr>
+          <td>长桥证券专属开户链接</td>
+          <td><a href="https://67373.net/chq">67373.net/chq</a></td>
+        </tr>
+        <tr>
+          <td>投稿邮箱</td>
+          <td><a href="mailto:chenyifaer777@gmail.com">chenyifaer777@gmail.com</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="xdyc">
+    <div style="display: flex; margin: auto;width: fit-content; height: 18vw">
+      <img src="https://raw.githubusercontent.com/67373net/serverPublicAll/main/commonSrc/小德影城二维码.png">
+      <div style="width: 3vw;"></div>
+      <div style="margin: auto;">
+        <div style="font-size: 1.3em; color: black;">
+          <span class="bold">小德影城 </span>
+          开播公告及通知
+        </div>
+        <div style="font-size: 1.1em; color: #06c262;">微信中长按图片，即可使用</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Function to get query parameters from URL
+    function getQueryParams() {
+      const params = {};
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      for (const [key, value] of urlParams.entries()) {
+        params[key] = value;
+      }
+      return params;
+    }
+
+    // Function to display poster
+    function displayPoster() {
+      const params = getQueryParams();
+      const posterDiv = document.getElementById('poster');
+      posterDiv.src = params.cover;
+      const titleDiv = document.getElementById('title');
+      titleDiv.innerHTML = params.title;
+      const timeDiv = document.getElementById('time');
+      timeDiv.innerHTML = params.time;
+    }
+
+    // Call the function to display the poster when the page loads
+    window.onload = displayPoster;
+  </script>
+</body>
+
+</html>
