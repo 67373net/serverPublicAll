@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实时分割文字</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+    }
+    #inputArea {
+      width: 100%;
+      height: 150px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      overflow: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    #outputArea {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin-top: 20px;
+    }
+    .char-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      white-space: normal; /* 允许换行 */
+      word-break: break-all; /* 允许单词中间断行 */
+    }
+  </style>
+</head>
+<body>
+  <label for="widthInput">宽度（em）：</label>
+  <input type="number" id="widthInput" value="3.5" step="0.1">
+  <label for="heightInput">高度（em）：</label>
+  <input type="number" id="heightInput" value="5" step="0.1">
+  <label for="gapInput">间距（em）：</label>
+  <input type="number" id="gapInput" value="0" step="0.1">
+  <textarea id="inputArea" placeholder="请输入文字..."></textarea>
+  <div id="outputArea"></div>
+  <script>
+    const inputArea = document.getElementById('inputArea');
+    const outputArea = document.getElementById('outputArea');
+    const widthInput = document.getElementById('widthInput');
+    const heightInput = document.getElementById('heightInput');
+    const gapInput = document.getElementById('gapInput');
+
+    function updateBoxSize() {
+      const width = widthInput.value;
+      const height = heightInput.value;
+      document.querySelectorAll('.char-box').forEach(box => {
+        box.style.width = `${width}em`;
+        box.style.height = `${height}em`;
+      });
+    }
+
+    function updateGap() {
+      const gap = gapInput.value;
+      outputArea.style.gap = `${gap}em`;
+    }
+
+    inputArea.addEventListener('input', () => {
+      const text = inputArea.value;
+      outputArea.innerHTML = ''; // 清空输出区域
+
+      let chunkSize = 9; // 每个 div 最多包含 9 个字符
+      for (let i = 0; i < text.length; i += chunkSize) {
+        let chunk = text.slice(i, i + chunkSize);
+        let div = document.createElement('div');
+        div.className = 'char-box';
+        div.textContent = chunk;
+        outputArea.appendChild(div);
+      }
+      updateBoxSize(); // 更新 .char-box 的大小
+      updateGap(); // 更新 .char-box 的间距
+    });
+
+    widthInput.addEventListener('input', updateBoxSize);
+    heightInput.addEventListener('input', updateBoxSize);
+    gapInput.addEventListener('input', updateGap);
+  </script>
+</body>
+</html>
