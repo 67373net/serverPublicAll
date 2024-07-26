@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Display in iFrame</title>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    input,
+    button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px;
+    }
+
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <iframe id="urlFrame" allowfullscreen></iframe>
+  <hr>
+  <h1>Enter URL to Display in iFrame</h1>
+  <input type="text" id="urlInput" placeholder="Enter URL here">
+  <button onclick="loadURL()">Load URL</button>
+
+
+  <script>
+    function loadURL() {
+      let url = document.getElementById('urlInput').value;
+      url = url.replace('https://www.youtube.com/watch?v=', '');
+      url = 'https://www.youtube.com/embed/' + url;
+      document.getElementById('urlFrame').src = url;
+    }
+  </script>
+</body>
+
+</html>
