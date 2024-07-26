@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove and Highlight Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        textarea, .box {
+            width: 568px;
+            height: 200px;
+            margin-bottom: 20px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            overflow: auto;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            gap: 20px;
+        }
+        .box {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .highlight {
+            color: red;
+        }
+        .output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h2>Remove and Highlight Links</h2>
+    <textarea id="inputText" placeholder="Enter text with links here..."></textarea>
+    <button onclick="processText()">Process Text</button>
+    <div class="container">
+        <div class="box" id="leftBox">
+            <div id="originalText" class="output"></div>
+        </div>
+        <div class="box" id="rightBox">
+            <div id="processedText" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        function processText() {
+            let inputTextarea = document.getElementById('inputText');
+            let originalTextDiv = document.getElementById('originalText');
+            let processedTextDiv = document.getElementById('processedText');
+            let text = inputTextarea.value;
+
+            // Regular expression to match URLs
+            let urlPattern = /(https?:\/\/[^\s]+)/g;
+
+            // Highlight links in the original text
+            let highlightedText = text.replace(urlPattern, '<span class="highlight">$1</span>');
+
+            // Remove links for the processed text
+            let textWithoutLinks = text.replace(urlPattern, '');
+
+            // Display highlighted text in the original text div
+            originalTextDiv.innerHTML = highlightedText;
+
+            // Display text without links in the processed text div
+            processedTextDiv.textContent = textWithoutLinks;
+        }
+
+        function syncScroll(elements) {
+            elements.forEach((element, index) => {
+                element.onscroll = () => {
+                    elements.forEach((el, i) => {
+                        if (i !== index) {
+                            el.scrollTop = element.scrollTop;
+                            el.scrollLeft = element.scrollLeft;
+                        }
+                    });
+                };
+            });
+        }
+
+        window.onload = function() {
+            let inputTextarea = document.getElementById('inputText');
+            let leftBox = document.getElementById('leftBox');
+            let rightBox = document.getElementById('rightBox');
+            syncScroll([inputTextarea, leftBox, rightBox]);
+        }
+    </script>
+</body>
+</html>
