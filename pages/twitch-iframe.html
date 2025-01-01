@@ -19,16 +19,16 @@
     </style>
 </head>
 <body>
-
     <h1>选择一个 Twitch 频道</h1>
     <button id="button1">显示 thebs_chen</button>
     <button id="button2">显示 luoshushu0</button>
     <br><br>
     <button id="changeChannelButton">修改频道</button>
     <input type="text" id="newChannel" placeholder="输入新频道名" />
-
+    <br><br>
+    <button id="customSrcButton">使用自定义 URL</button>
+    <input type="text" id="customSrc" placeholder="输入自定义 iframe src" />
     <div id="player"></div>
-
     <script>
         document.getElementById('button1').onclick = function() {
             document.getElementById('player').innerHTML = `
@@ -38,7 +38,6 @@
                 </iframe>
             `;
         };
-
         document.getElementById('button2').onclick = function() {
             document.getElementById('player').innerHTML = `
                 <iframe
@@ -47,7 +46,6 @@
                 </iframe>
             `;
         };
-
         document.getElementById('changeChannelButton').onclick = function() {
             const newChannel = document.getElementById('newChannel').value;
             if (newChannel) {
@@ -61,7 +59,19 @@
                 alert('请输入新的频道名');
             }
         };
+        document.getElementById('customSrcButton').onclick = function() {
+            const customSrc = document.getElementById('customSrc').value;
+            if (customSrc) {
+                document.getElementById('player').innerHTML = `
+                    <iframe
+                        src="${customSrc}"
+                        allowfullscreen>
+                    </iframe>
+                `;
+            } else {
+                alert('请输入自定义 iframe src');
+            }
+        };
     </script>
-
 </body>
 </html>
