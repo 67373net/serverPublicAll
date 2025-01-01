@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch 播放器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        iframe {
+            width: 80%;
+            height: 500px;
+            border: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>选择一个 Twitch 频道</h1>
+    <button id="button1">显示 thebs_chen</button>
+    <button id="button2">显示 luoshushu0</button>
+    <div id="player"></div>
+    <script>
+        document.getElementById('button1').onclick = function() {
+            document.getElementById('player').innerHTML = `
+                <iframe
+                    src="https://player.twitch.tv/?channel=thebs_chen&parent=github.io"
+                    allowfullscreen>
+                </iframe>
+            `;
+        };
+        document.getElementById('button2').onclick = function() {
+            document.getElementById('player').innerHTML = `
+                <iframe
+                    src="https://player.twitch.tv/?channel=luoshushu0&parent=github.io"
+                    allowfullscreen>
+                </iframe>
+            `;
+        };
+    </script>
+</body>
+</html>
