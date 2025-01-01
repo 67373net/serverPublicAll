@@ -19,27 +19,49 @@
     </style>
 </head>
 <body>
+
     <h1>选择一个 Twitch 频道</h1>
     <button id="button1">显示 thebs_chen</button>
     <button id="button2">显示 luoshushu0</button>
+    <br><br>
+    <button id="changeChannelButton">修改频道</button>
+    <input type="text" id="newChannel" placeholder="输入新频道名" />
+
     <div id="player"></div>
+
     <script>
         document.getElementById('button1').onclick = function() {
             document.getElementById('player').innerHTML = `
                 <iframe
-                    src="https://player.twitch.tv/?channel=thebs_chen&parent=github.io"
+                    src="https://player.twitch.tv/?channel=thebs_chen&parent=67373net.github.io"
                     allowfullscreen>
                 </iframe>
             `;
         };
+
         document.getElementById('button2').onclick = function() {
             document.getElementById('player').innerHTML = `
                 <iframe
-                    src="https://player.twitch.tv/?channel=luoshushu0&parent=github.io"
+                    src="https://player.twitch.tv/?channel=luoshushu0&parent=67373net.github.io"
                     allowfullscreen>
                 </iframe>
             `;
         };
+
+        document.getElementById('changeChannelButton').onclick = function() {
+            const newChannel = document.getElementById('newChannel').value;
+            if (newChannel) {
+                document.getElementById('player').innerHTML = `
+                    <iframe
+                        src="https://player.twitch.tv/?channel=${newChannel}&parent=67373net.github.io"
+                        allowfullscreen>
+                    </iframe>
+                `;
+            } else {
+                alert('请输入新的频道名');
+            }
+        };
     </script>
+
 </body>
 </html>
