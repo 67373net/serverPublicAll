@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链接删除器</title>
+    <style>
+        body {
+            padding: 18px;
+            margin: auto;
+        }
+        textarea {
+            width: -webkit-fill-available;
+            display: block;
+            margin: 18px;
+            height: 300px;
+            padding: 18px;
+        }
+        button {
+            padding: 10px 15px;
+            display: block;
+            margin: auto;
+        }
+        #output {
+            padding: 18px;
+            margin: 18px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            white-space: pre-wrap; /* 保持格式 */
+        }
+    </style>
+</head>
+<body>
+
+<div id="output"></div>
+<textarea id="inputArea" placeholder="在这里输入文本..."></textarea>
+<button id="removeLinksBtn">删除链接</button>
+
+
+<script>
+    document.getElementById('removeLinksBtn').addEventListener('click', function() {
+        var textArea = document.getElementById('inputArea');
+        var outputDiv = document.getElementById('output');
+        // 用正则表达式匹配并删除合法的 URL
+        var modifiedText = textArea.value.replace(/https?:\/\/[a-zA-Z0-9\-._~:\/?#[\]@!$&'()*+,;=%]+/g, '');
+        // 显示修改后的文本
+        outputDiv.textContent = modifiedText;
+    });
+</script>
+
+</body>
+</html>
