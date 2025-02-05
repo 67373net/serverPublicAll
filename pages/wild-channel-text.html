@@ -1,104 +1,145 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>实时生成字符串</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            margin-bottom: 15px;
-        }
-        .checkbox-group {
-            margin-bottom: 15px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #output {
-            margin-top: 20px;
-            white-space: pre-wrap; /* 保持格式 */
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实时生成字符串</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 15px;
+    }
+
+    .checkbox-group {
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      /* 保持格式 */
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>实时生成字符串</h1>
+  <h1>实时生成字符串</h1>
 
-<textarea id="inputA" placeholder="在这里输入内容..." oninput="updateOutput()"></textarea>
+  <textarea id="inputA" placeholder="在这里输入内容..." oninput="updateOutput()"></textarea>
 
-<div class="checkbox-group">
+  <div class="checkbox-group">
     <label><input type="checkbox" value="#微博" onchange="updateOutput()"> #微博</label><br>
     <label><input type="checkbox" value="#youtube" onchange="updateOutput()"> #youtube</label><br>
     <label><input type="checkbox" value="#twitter" onchange="updateOutput()"> #twitter</label><br>
     <label><input type="checkbox" value="#ins" onchange="updateOutput()"> #ins</label><br>
     <label><input type="checkbox" value="#夸夸群" onchange="updateOutput()"> #夸夸群</label><br>
     <label><input type="checkbox" value="#直播" onchange="updateOutput()"> #直播</label><br>
-</div>
+    <label><input type="checkbox" value="#wx" onchange="updateOutput()"> #wx</label><br>
+    <label><input type="checkbox" value="#修仙群" onchange="updateOutput()"> #修仙群</label><br>
+  </div>
 
-<button id="copyButton" onclick="copyToClipboard()">复制内容</button>
+  <button id="copyButton" onclick="copyToClipboard()">复制内容</button>
 
-<div id="output"></div>
+  <div id="output"></div>
 
 
-<br /><br />
-<div>
-  #2025<br />
-  #直播<br />
-  #12月<br />
-</div>
-<br />
-<div>
-  #2025<br />
-  #直播<br />
-</div>
+  <br /><br />
+  <div>
+    #2025<br />
+    #直播<br />
+    #12月<br />
+  </div>
+  <br />
+  <div>
+    #2025<br />
+    #直播<br />
+  </div>
 
-<script>
+  <script>
     function updateOutput() {
-        const inputA = document.getElementById('inputA').value.trim();
-        const year = new Date().getFullYear();
-        const month = String(new Date().getMonth() + 1).padStart(2, '0'); // 月份从0开始
-        const day = String(new Date().getDate()).padStart(2, '0');
-        const formattedDate = `#${month}${day}`;
-        
-        let checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
-        let selectedTags = Array.from(checkboxes).map(checkbox => checkbox.value).join('\n');
+      const inputA = document.getElementById('inputA').value.trim();
+      const year = new Date().getFullYear();
+      const month = String(new Date().getMonth() + 1).padStart(2, '0'); // 月份从0开始
+      const day = String(new Date().getDate()).padStart(2, '0');
+      const formattedDate = `#${month}${day}`;
 
-        let output = `${inputA}\n#${year}\n${selectedTags}\n${formattedDate}`;
-        document.getElementById('output').textContent = output;
+      let checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
+      let selectedTags = Array.from(checkboxes).map(checkbox => checkbox.value).join('\n');
+
+      let output = `${inputA}\n#${year}\n${selectedTags}\n${formattedDate}`;
+      document.getElementById('output').textContent = output;
     }
 
     function copyToClipboard() {
-        const outputText = document.getElementById('output').textContent;
-        const copyButton = document.getElementById('copyButton');
+      const outputText = document.getElementById('output').textContent;
+      const copyButton = document.getElementById('copyButton');
 
-        navigator.clipboard.writeText(outputText).then(() => {
-            // 修改按钮文字
-            copyButton.textContent = '已复制！';
-            // 3秒后恢复原来的文字
-            setTimeout(() => {
-                copyButton.textContent = '复制内容';
-            }, 2888);
-        }, () => {
-            alert('复制失败，请手动复制。');
-        });
+      navigator.clipboard.writeText(outputText).then(() => {
+        // 修改按钮文字
+        copyButton.textContent = '已复制！';
+        // 3秒后恢复原来的文字
+        setTimeout(() => {
+          copyButton.textContent = '复制内容';
+        }, 2888);
+      }, () => {
+        alert('复制失败，请手动复制。');
+      });
     }
-</script>
+
+    let tgLink = document.createElement('div');
+    tgLink.innerHTML = `
+  <input placeholder='tg数字' value="994094?thread=994092">
+  <button>复制tg链接</button>
+  <button>打开tg链接</button>
+  <br />
+	`
+    tgLink.querySelector('button').onclick = () => {
+      GM_setClipboard(`https://t.me/c/1744444199/` + tgLink.querySelector('input').value)
+    }
+    tgLink.querySelectorAll('button')[1].onclick = () => {
+      window.open(`https://t.me/c/1744444199/` + tgLink.querySelector('input').value)
+    }
+    document.querySelector("body").append(tgLink)
+    // 创造 FFMPEG 工具
+    let ffmpegCutter = document.createElement('div')
+    ffmpegCutter.innerHTML = `
+  <input id='start' placeholder='开始时间'>
+  <input id='end' placeholder='结束时间'>
+  <input id='filename' placeholder='输入文件名'>
+  <input id='output' placeholder='输出文件名'>
+  <button>复制ffmpeg指令</button>
+  <br />
+	`
+    ffmpegCutter.querySelector('button').onclick = () => {
+      let exec = `ffmpeg -i "${ffmpegCutter.querySelector('#filename').value}" -ss ${ffmpegCutter.querySelector('#start').value} -to ${ffmpegCutter.querySelector('#end').value} -vcodec copy -acodec copy -copyinkf "${ffmpegCutter.querySelector('#output').value}"`;
+      GM_setClipboard(exec);
+    }
+    document.querySelector("body").append(ffmpegCutter);
+  </script>
 
 </body>
+
 </html>
