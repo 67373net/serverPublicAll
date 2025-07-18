@@ -1,3 +1,5 @@
+https://67373net.github.io/serverPublicAll/pages/virtual-keyboard-chinese-input.html
+
 https://67373net.github.io/serverPublicAll/pages/generate-poster.html
 
 https://67373net.github.io/serverPublicAll/pages/half-hour-alert.html
