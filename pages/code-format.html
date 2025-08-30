@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>代码格式化工具</title>
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 10px;
+        }
+
+        .language-selection {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .language-selection label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 96vh;
+        }
+
+        textarea, pre {
+            width: 49.5%;
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 14px;
+            white-space: pre;
+            overflow: auto;
+        }
+        
+        pre {
+            background-color: #f5f2f0;
+            margin: 0;
+            font-size: 14px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="language-selection">
+        <label><input type="radio" name="language" value="js" checked>JavaScript</label>
+        <label><input type="radio" name="language" value="python">Python</label>
+        <label><input type="radio" name="language" value="ts">TypeScript</label>
+        <label><input type="radio" name="language" value="json">JSON</label>
+        <label><input type="radio" name="language" value="html">HTML</label>
+        <label><input type="radio" name="language" value="rest">REST</label>
+    </div>
+
+    <div class="container">
+        <textarea id="input-code"></textarea>
+        <pre><code id="output-code" class="language-js"></code></pre>
+    </div>
+
+    <script src="https://unpkg.com/prettier@2.8.8/standalone.js"></script>
+    <script src="https://unpkg.com/prettier@2.8.8/parser-babel.js"></script>
+    <script src="https://unpkg.com/prettier@2.8.8/parser-typescript.js"></script>
+    <script src="https://unpkg.com/prettier@2.8.8/parser-json.js"></script>
+    <script src="https://unpkg.com/prettier@2.8.8/parser-html.js"></script>
+    <script src="https://unpkg.com/prettier@2.8.8/parser-markdown.js"></script>
+    
+    <script src="https://unpkg.com/prismjs@1.29.0/prism.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-javascript.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-typescript.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-json.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-python.js"></script>
+    <script src="https://unpkg.com/prismjs@1.29.0/components/prism-markup.js"></script>
+    
+    <script>
+        const inputCode = document.getElementById('input-code');
+        const outputCode = document.getElementById('output-code');
+        const languageRadios = document.querySelectorAll('input[name="language"]');
+
+        const parsers = {
+            js: { parser: 'babel', prismClass: 'language-js' },
+            ts: { parser: 'typescript', prismClass: 'language-ts' },
+            json: { parser: 'json', prismClass: 'language-json' },
+            html: { parser: 'html', prismClass: 'language-markup' },
+            rest: { parser: 'html', prismClass: 'language-markup' },
+            python: { parser: 'python', prismClass: 'language-python' },
+        };
+        
+        async function loadPythonParser() {
+            if (!window.prettierPlugins.python) {
+                const pythonPlugin = await fetch('https://unpkg.com/prettier@2.8.8/parser-python.js').then(res => res.text());
+                const module = new Function('exports, module, require', pythonPlugin);
+                const exports = {};
+                module(exports, {}, () => {});
+                window.prettierPlugins = { ...window.prettierPlugins, ...exports };
+            }
+        }
+        
+        languageRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                const { prismClass } = parsers[radio.value];
+                outputCode.className = prismClass;
+                // Trigger formatting on language change
+                formatCode();
+            });
+        });
+
+        inputCode.addEventListener('input', formatCode);
+
+        async function formatCode() {
+            const selectedRadio = document.querySelector('input[name="language"]:checked');
+            if (!selectedRadio) return;
+
+            const lang = selectedRadio.value;
+            const { parser, prismClass } = parsers[lang];
+            const code = inputCode.value;
+
+            if (lang === 'python') {
+                await loadPythonParser();
+            }
+
+            try {
+                const formattedCode = prettier.format(code, {
+                    parser: parser,
+                    plugins: window.prettierPlugins,
+                });
+                
+                outputCode.textContent = formattedCode;
+                Prism.highlightElement(outputCode);
+            } catch (error) {
+                outputCode.textContent = '格式化失败：' + error.message;
+                outputCode.className = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
