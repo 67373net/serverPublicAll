@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Text Compare</title>
+  <style>
+    body {
+      background-color: #fdfdfd;
+      color: #212529;
+      font-family: Consolas, 'Courier New', monospace;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      gap: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      background-color: #f8f9fa;
+      color: #212529;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 14px;
+      font-family: Consolas, 'Courier New', monospace;
+      resize: vertical;
+      overflow: auto;
+      /* MODIFICATION: Height is now set directly in CSS using vh units */
+      height: 40vh;
+      min-height: 200px;
+    }
+
+    button {
+      background-color: #e9ecef;
+      color: #333;
+      border: 1px solid #ced4da;
+      padding: 5px 15px;
+      font-size: 14px;
+      margin-top: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .diff-box {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .diff {
+      flex: 1;
+      white-space: pre; 
+      background-color: #ffffff;
+      border: 1px solid #dee2e6;
+      border-radius: 4px;
+      padding: 10px;
+      overflow: auto;
+      font-size: 14px;
+      /* MODIFICATION: Height is now set directly in CSS using vh units */
+      height: 40vh;
+      min-height: 200px;
+    }
+
+    .diff div {
+        min-height: 1.5em; 
+    }
+
+    .added {
+      background-color: #e6ffed;
+    }
+
+    .removed {
+      background-color: #ffeef0;
+    }
+    
+    .placeholder {
+        background-color: #fafafa;
+    }
+
+    .line-number {
+      display: inline-block;
+      width: 40px;
+      color: #999;
+      margin-right: 15px;
+      text-align: right;
+      user-select: none;
+    }
+
+    .font-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .font-control-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .font-control-group span {
+      font-size: 14px;
+      color: #212529;
+    }
+
+    .diff-stats span {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .stats-removed {
+      color: #b31d28;
+      margin-right: 15px;
+    }
+
+    .stats-added {
+      color: #22863a;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <textarea id="left" placeholder="Enter original code or text..."></textarea>
+    <textarea id="right" placeholder="Enter updated code or text..."></textarea>
+  </div>
+
+  <div class="font-control" id="fontControl">
+    <div class="font-control-group">
+      <button onclick="changeFontSize(-1)">-</button>
+      <span>Font Size</span>
+      <button onclick="changeFontSize(1)">+</button>
+    </div>
+    <div id="diffStats" class="diff-stats"></div>
+  </div>
+
+  <div class="diff-box">
+    <div id="leftResult" class="diff"></div>
+    <div id="rightResult" class="diff"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/diff@5.1.0/dist/diff.min.js"></script>
+  <script>
+    let fontSize = 14;
+
+    const leftTextarea = document.getElementById("left");
+    const rightTextarea = document.getElementById("right");
+    const leftResult = document.getElementById("leftResult");
+    const rightResult = document.getElementById("rightResult");
+    const diffStatsEl = document.getElementById('diffStats');
+
+    leftTextarea.addEventListener('input', compare);
+    rightTextarea.addEventListener('input', compare);
+
+    function escapeHTML(str) {
+      return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    
+    function changeFontSize(delta) {
+      fontSize += delta;
+      if (fontSize < 10) fontSize = 10; 
+      if (fontSize > 30) fontSize = 30;
+      document.querySelectorAll('.diff').forEach(diff => {
+        diff.style.fontSize = `${fontSize}px`;
+      });
+    }
+
+    function compare() {
+      const leftText = leftTextarea.value;
+      const rightText = rightTextarea.value;
+
+      const diff = Diff.diffLines(leftText, rightText);
+
+      let leftHTML = '';
+      let rightHTML = '';
+      let leftLineNum = 1;
+      let rightLineNum = 1;
+
+      let addedLines = 0;
+      let removedLines = 0;
+
+      diff.forEach(part => {
+        const lines = part.value.split('\n');
+        const numLines = lines.length - (lines[lines.length - 1] === '' ? 1 : 0);
+
+        if (part.added) {
+          addedLines += numLines;
+        } else if (part.removed) {
+          removedLines += numLines;
+        }
+
+        for (let i = 0; i < numLines; i++) {
+          const escapedLine = escapeHTML(lines[i]);
+          
+          if (part.added) {
+            rightHTML += `<div class="added"><span class="line-number">${rightLineNum++}</span>${escapedLine}</div>`;
+            leftHTML += `<div class="placeholder"><span class="line-number"></span>&nbsp;</div>`;
+          } else if (part.removed) {
+            leftHTML += `<div class="removed"><span class="line-number">${leftLineNum++}</span>${escapedLine}</div>`;
+            rightHTML += `<div class="placeholder"><span class="line-number"></span>&nbsp;</div>`;
+          } else {
+            leftHTML += `<div><span class="line-number">${leftLineNum++}</span>${escapedLine}</div>`;
+            rightHTML += `<div><span class="line-number">${rightLineNum++}</span>${escapedLine}</div>`;
+          }
+        }
+      });
+
+      leftResult.innerHTML = leftHTML;
+      rightResult.innerHTML = rightHTML;
+
+      if (addedLines > 0 || removedLines > 0) {
+        diffStatsEl.innerHTML = `
+          <span class="stats-removed">-${removedLines}</span>
+          <span class="stats-added">+${addedLines}</span>
+        `;
+      } else {
+        diffStatsEl.innerHTML = '';
+      }
+    }
+    
+    /**
+     * A reusable function to synchronize scrolling between two elements.
+     * @param {HTMLElement} el1 The first element.
+     * @param {HTMLElement} el2 The second element.
+     */
+    function syncScroll(el1, el2) {
+      let activeElement = null;
+
+      el1.addEventListener('mouseenter', () => { activeElement = el1; });
+      el2.addEventListener('mouseenter', () => { activeElement = el2; });
+
+      el1.addEventListener('scroll', () => {
+        if (activeElement === el1) {
+          el2.scrollTop = el1.scrollTop;
+          el2.scrollLeft = el1.scrollLeft;
+        }
+      });
+
+      el2.addEventListener('scroll', () => {
+        if (activeElement === el2) {
+          el1.scrollTop = el2.scrollTop;
+          el1.scrollLeft = el2.scrollLeft;
+        }
+      });
+    }
+
+    // --- INITIALIZATION ---
+
+    // Run the comparison on page load
+    compare();
+
+    // Activate synchronized scrolling for both pairs of boxes
+    syncScroll(leftTextarea, rightTextarea);
+    syncScroll(leftResult, rightResult);
+
+    // MODIFICATION: The JS height calculation and resize listener are no longer needed.
+
+  </script>
+</body>
+</html>
